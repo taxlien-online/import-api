@@ -1,0 +1,70 @@
+openapi: 3.0.0
+info:
+  title: Data Entry Microservice API
+  description: API для внесения данных в основную базу данных.
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+    description: Локальный сервер
+
+paths:
+  /onPageParsed:
+    post:
+      summary: Обработка и запись данных в базу
+      description: Принимает JSON-объект с информацией и сохраняет его в базу данных.
+      operationId: onPageParsed
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  description: JSON-объект с данными для внесения.
+                  example:
+                    id: 123
+                    name: "Sample Name"
+                    description: "Описание объекта"
+                    createdAt: "2024-12-06T12:00:00Z"
+      responses:
+        '200':
+          description: Успешное сохранение данных
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Данные успешно сохранены."
+        '400':
+          description: Ошибка валидации входных данных
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Неверный формат данных."
+        '500':
+          description: Внутренняя ошибка сервера
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Ошибка сохранения данных."
